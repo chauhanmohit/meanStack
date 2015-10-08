@@ -1,0 +1,427 @@
+<div class="row col-lg-12">
+	<!-- Page Heading -->
+	<div class="page-title">
+		<h3>Dashboard</h3>
+		<div class="page-breadcrumb">
+			<ol class="breadcrumb">
+			    <li><a href="#!/admin/dashboard/bookingListing">Home</a></li>
+			    <li><a href="/#!/admin/dashboard/clientListing">Client listing</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="panel panel-white">
+		<div class="panel-heading">
+			<h3><i class="fa fa-money fa-fw"></i> Client listing</h3>
+			<button type="button" ng-click="changeState()" ng-show="infoClientDiv" class="back">Back</button>
+		</div>
+		<div class="panel-body" ng-hide="infoClientDiv">
+			<div class="gridStyle" ng-grid="gridOptions"></div>
+			<span style="display:none;" ng-bind="info = gridOptions.selectedItems[0]"> </span> <br>
+
+			<span ng-show="showForgetSuccess" >
+			  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+			</span>
+			<span ng-show="showForgetError" >
+				<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+			</span>
+
+			<div class="text-right">
+			    <a role="button" class="btn btn-primary btn-lg pull-right vendor-btn" data-ng-click="addClient()" href="javascript:void(0);">Add New Client<i class="fa fa-plus"></i></a>
+			</div>
+		</div>
+
+
+	<!-- show client info here -->
+	<div class="row" ng-show="infoClientDiv">
+		<!-- /.row -->
+		<div class="col-lg-12">
+			<h4 class="t-name">Client Info</h4>
+			<div class="account-info">
+				<!-- <div class="account-img">
+				  	<img src="images/profile.png" class="img-responsive">
+				</div> -->
+				<div class="full-account-detail">
+				  <h2>{{data.displayName}}</h2>
+					<div class="account-side-info">
+						<address> <h4><i class="glyphicon glyphicon-home i-space"></i>Address</h4>
+						{{data.address}}
+						</address>
+	       				<div class="acc-info">
+	       					<h4><i class="fa fa-phone i-space"></i>Phone</h4>
+		     				<p> {{data.phone}} </p>
+		   				</div>
+		            	<div class="acc-info">
+		            		<h4><i class="fa fa-envelope-o i-space"></i>Email</h4>
+							<p> {{data.email}} </p>
+						</div>
+		           	</div>
+
+					<div class="about-info">
+			            <div class="acc-info">
+			            	<h4><i class="fa fa-tag i-space"></i>Employee</h4>
+			            	<p> {{data.employee}} </p>
+			            </div>
+			            <div class="acc-info">
+			            	<h4><i class="fa fa-usd i-space"></i>Fee</h4>
+			            	<p> ${{data.fee}} </p>
+			            </div>
+					</div>
+
+					<div class="right-side-info">
+					  <h4>Building Listings</h4>
+					    <p> {{data.description}} </p>
+					    <table  class="table table-striped">
+						    <thead>
+							    <tr>
+								<th>Sr</th>
+							    	<th>Dates</th>
+							    	<th>Edit</th>
+							    	<th>Remove</th>
+							    </tr>
+							</thead>
+							<tbody>
+							    <tr ng-repeat="info in eventInfo | startFrom:SingleEventPage*SingleEventPageSize | limitTo:SingleEventPageSize">
+								<td>{{$index}}</td>
+							    	<td style="width: 124px;">{{info.date | arrayToList}}</td>
+							    	<td><input type="button" class="btn btn-success mybtn1" value="Update" ng-click="editEvent(info.id, $index)" /></td>
+							    	<td><input type="button" class="btn btn-success mybtn1" value="Delete" ng-click="removeEvent($index, info)" /></td>
+							    </tr>
+							</tbody>
+					    </table>
+					    <button ng-disabled="SingleEventPage == 0" ng-click="SingleEventPage=SingleEventPage-1" ng-show="numberOfPages() > 0">
+						Previous
+					    </button>
+					    <span ng-show="numberOfPages() > 0">{{SingleEventPage+1}}/{{numberOfPages()}}</span>
+					    <button ng-disabled="SingleEventPage >= eventInfo.length/SingleEventPageSize - 1" ng-click="SingleEventPage=SingleEventPage+1" ng-show="numberOfPages() > 0">
+						Next
+					    </button>
+					    <div class="text-right">
+		        <a role="button" class="btn btn-primary btn-lg pull-right vendor-btn" data-ng-click="addEvent(data.displayName)" href="javascript:void(0);">Add Available Buildings<i class="fa fa-plus"></i></a>
+		    </div>
+					</div>
+				</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- edit Client script template starts here -->
+
+		<script type="text/ng-template" id="editClientTemplate.html">
+			<div class="modal-content">
+	        	<form name="eventForm" id="eventForm">
+
+	        		<div class="modal-header"> <!-- model header starts from here -->
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"> <span aria-hidden="true"> x </span></button>
+						<center><h4 class="modal-title" id="myModalLabel">Update Client</h4> </center>
+					</div>
+					<!-- model header closed from here -->
+
+					<div class="modal-body"> <!-- model body starts here -->
+						<span ng-show="showForgetSuccess" >
+						  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+						</span>
+
+						<span ng-show="showForgetError" >
+							<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+						</span>
+
+
+	                    <div class="panel-body">
+							<div class="form-group">
+							   	<div><h4>Client Name</h4>
+								   	<div ng-class="{'has-error': eventForm.displayname.$invalid && !eventForm.displayname.$pristine }">
+								   		<input class="form-control input-lg" name="displayname" type="text" data-ng-model="info.displayName" placeholder="Client Name"  ng-pattern="/^[a-zA-Z ]*$/" required>
+								  		<span ng-show="(eventForm.displayname.$error.required)" class="help-block">Please fill Client name</span>
+				  						<span ng-show="(eventForm.displayname.$error.pattern)" class="help-block">Please use characters only</span>
+				  					</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+							   	<div><h4>Phone</h4>
+							   		<div ng-class="{'has-error': eventForm.phone.$invalid && !eventForm.phone.$pristine }">
+								   		<input class="form-control input-lg" name="phone" type="text" data-ng-model="info.phone" placeholder="Phone" ng-pattern="/^[0-9+\s]*$/" ng-minlength="10" ng-maxlength="12" required/>
+								  		<span ng-show="(eventForm.phone.$error.required)" class="help-block">Please fill Phone number</span>
+				  						<span ng-show="(eventForm.phone.$error.pattern)" class="help-block">Please use digits only</span>
+				  						<span ng-show="((eventForm.phone.$error.minlength || eventForm.phone.$error.maxlength) && eventForm.phone.$dirty)" class="help-block">Phone number should be 10-12 digits</span>
+				  					</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+							   <div><h4>Email</h4>
+							   		<input class="form-control input-lg" name="email" type="text" data-ng-model="info.email" placeholder="Email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" readonly>
+							   	</div>
+							</div>
+
+						<div class="form-group">
+							<label>Employee:</label>
+							<div ng-class="{ 'has-error' : eventForm.employee.$invalid && !eventForm.employee.$pristine }">
+								<input class="form-control input-lg" data-ng-model="info.employee" name="employee" type="text" placeholder="Employee" minlength="1" maxlength="12" data-ng-pattern="/^[0-9+\s]*$/" required>
+								<span ng-show="(eventForm.employee.$error.required && !eventForm.employee.$pristine)" class="help-block"> Please add employee code</span>
+								<span ng-show="(eventForm.employee.$error.pattern)" class="help-block"> Please use integers only </span>
+								<span ng-show="(eventForm.employee.$error.maxlength)" class="help-block"> Employee code cannot be greater than 12digits </span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Fee:</label>
+							<div ng-class="{ 'has-error' : eventForm.fee.$invalid && !eventForm.fee.$pristine }">
+								<div class="input-group">
+      							<span id="basic-addon1" class="input-group-addon">$</span>
+								<input class="form-control input-lg" name="fee" type="text" data-ng-model="info.fee" placeholder="Fee" autocomplete="off" data-ng-pattern="/^[0-9+\s]*$/" ng-minlength="1" ng-maxlength="12" required>
+								</div>
+								<span ng-show="(eventForm.fee.$error.required && !eventForm.fee.$pristine)" class="help-block"> Please add fee</span>
+								<span ng-show="(eventForm.fee.$error.pattern)" class="help-block"> Please use integers only </span>
+								<span ng-show="(eventForm.fee.$error.maxlength)" class="help-block"> Fee cannot be greater than 12digits </span>
+							</div>
+						</div>
+					</div>
+
+				<div class="modal-footer"> <!-- model footer starts here -->
+					<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+					<input type="submit" value="Submit" class="btn btn-success" ng-disabled="eventForm.$invalid" ng-class="{'disabled' : eventForm.$invalid}" novalidate ng-click="editClient(info)">
+				</div> <!-- model footer closed here -->
+
+            </div>
+        </div>
+    </form>
+    </div>
+</script>
+
+
+<!-- add Client script template starts here -->
+
+<script type="text/ng-template" id="addClientTemplate.html" >
+	<div class="modal-content">
+		<form name="addClientTplFrm" novalidate ng-submit="addClient(info)">
+			<div class="modal-header"> <!-- model header starts from here -->
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true"> x </span></button>
+				<center><h4 class="modal-title" id="myModalLabel">Add new client</h4> </center>
+			</div>
+			<!-- model header closed from here -->
+
+			<div class="modal-body"> <!-- model body starts here -->
+				<span ng-show="showForgetSuccess" >
+				  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+				</span>
+
+				<span ng-show="showForgetError" >
+					<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+				</span>
+
+				<div class="chn-pass-content">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.username.$invalid && !addClientTplFrm.username.$pristine }">
+								<label>Username:</label>
+								<input class="form-control input-lg" name="username" type="text" data-ng-model="info.username" placeholder="User Name" ng-pattern="/^[a-zA-Z ]*$/" required>
+								<span ng-show="addClientTplFrm.username.$error.required && !addClientTplFrm.username.$pristine" class="help-block">Please fill Username</span>
+		  						<span ng-show="(addClientTplFrm.username.$error.pattern)" class="help-block">Please use characters only</span>
+		  					</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.contactname.$invalid && !addClientTplFrm.contactname.$pristine }">
+								<label>Contact Name:</label>
+								<input class="form-control input-lg" name="contactname" type="text" data-ng-model="info.displayName" placeholder="Contact Name" autocomplete="off" ng-pattern="/^[a-zA-Z ]*$/" required>
+								<span ng-show="addClientTplFrm.contactname.$error.required && !addClientTplFrm.contactname.$pristine" class="help-block">Please fill Contact name</span>
+								<span ng-show="(addClientTplFrm.contactname.$error.pattern)" class="help-block">Please use characters only</span>
+		  					</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{'has-error': addClientTplFrm.address.$invalid && !addClientTplFrm.address.$pristine }">
+								<label>Address:</label>
+								<input class="form-control input-lg" name="address" type="text" data-ng-model="info.address" placeholder="Address" ng-pattern="/^[a-zA-Z0-9-' ',']*$/" required>
+								<span ng-show="(addClientTplFrm.address.$error.required && !addClientTplFrm.address.$pristine)" class="help-block">Please fill Address</span>
+				  				<span ng-show="(addClientTplFrm.address.$error.pattern)" class="help-block">Please fill valid address field</span>
+		  					</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.phone.$invalid && !addClientTplFrm.phone.$pristine }"  >
+								<label>Phone number:</label>
+								<input class="form-control input-lg" name="phone" data-ng-pattern= '/^[0-9+\s]*$/' type="text" data-ng-model="info.phone" placeholder="Phone" autocomplete="off" ng-minlength="10" ng-maxlength="12" required>
+								<span ng-show="addClientTplFrm.phone.$error.required && !addClientTplFrm.phone.$pristine" class="help-block">Please fill Phone Number</span>
+								<span ng-show="(addClientTplFrm.phone.$error.pattern)" class="help-block">Please use digits only</span>
+								<span ng-show="(addClientTplFrm.phone.$error.minlength || addClientTplFrm.phone.$error.maxlength) && !addClientTplFrm.phone.$pristine" class="help-block">Phone Number length 10-12 digits</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.email.$invalid && !addClientTplFrm.email.$pristine }"  >
+								<label>Email address:</label>
+								<input class="form-control input-lg" name="email" type="email" data-ng-model="info.email" placeholder="Email" data-ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+								<span ng-show="addClientTplFrm.email.$error.required && !addClientTplFrm.email.$pristine" class="help-block">Please fill Email Address</span>
+								<span ng-show="(addClientTplFrm.email.$error.pattern)" class="help-block">Please fill valid Email</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+						<label>Fee:</label>
+						<div ng-class="{ 'has-error' : addEventTplFrm.eventfee.$invalid && !addEventTplFrm.eventfee.$pristine }">
+							<div class="input-group">
+      							<span id="basic-addon1" class="input-group-addon">$</span>
+							<input class="form-control input-lg" name="eventfee" type="text" data-ng-model="info.fee" placeholder="Fee" autocomplete="off" data-ng-pattern="/^[0-9+\s]*$/" ng-minlength="1" ng-maxlength="12" required>
+							</div>
+							<span ng-show="(addEventTplFrm.eventfee.$error.required && !addEventTplFrm.eventfee.$pristine)" class="help-block"> Please select event fee</span>
+							<span ng-show="(addEventTplFrm.eventfee.$error.pattern)" class="help-block"> Please use integers only </span>
+							<span ng-show="(addEventTplFrm.eventfee.$error.maxlength)" class="help-block"> Fee cannot be greater than 12digits </span>
+						</div>
+					</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label>Employee:</label>
+							<div ng-class="{ 'has-error' : addEventTplFrm.employee.$invalid && !addEventTplFrm.employee.$pristine }">
+								<input class="form-control input-lg" name="employee" type="text" data-ng-model="info.employee" placeholder="Employee" autocomplete="off" data-ng-pattern="/^[0-9+\s]*$/" ng-minlength="1" ng-maxlength="12" required>
+								<span ng-show="(addEventTplFrm.employee.$error.required && !addEventTplFrm.employee.$pristine)" class="help-block"> Please add employee code</span>
+								<span ng-show="(addEventTplFrm.employee.$error.pattern)" class="help-block"> Please use integers only </span>
+								<span ng-show="(addEventTplFrm.employee.$error.maxlength)" class="help-block"> Employee code limit is 12digits </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.password.$invalid && !addClientTplFrm.password.$pristine }"  >
+								<label>Desired password:</label>
+								<input class="form-control input-lg" type="password" name="password" data-ng-model="info.password" placeholder="Desired password" ng-minlength="7" ng-maxlength="16" required>
+								<span ng-show="addClientTplFrm.password.$error.required && !addClientTplFrm.password.$pristine" class="help-block">Please fill Password</span>
+								<span ng-show="(addClientTplFrm.password.$error.minlength || addClientTplFrm.password.$error.maxlength) && !addClientTplFrm.password.$pristine" class="help-block">Password length 7-16 characters</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addClientTplFrm.cpassword.$invalid && !addClientTplFrm.cpassword.$pristine }"  >
+								<label>Confirm password:</label>
+								<input class="form-control input-lg" name="cpassword" type="password" data-ng-model="info.cpassword" placeholder="Confirm Password" required>
+								<span ng-show="addClientTplFrm.cpassword.$invalid && !addClientTplFrm.cpassword.$pristine" class="help-block">Please Confirm Password</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- model body starts here -->
+			<div class="modal-footer"> <!-- model footer starts here -->
+				<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+				<input type="submit" value="Submit" class="btn btn-success"  ng-disabled="addClientTplFrm.$invalid"  ng-class="{ 'disabled' : addClientTplFrm.$invalid }"  >
+			</div> <!-- model footer closed here -->
+		</form>
+	</div> <!-- model content clsoed here -->
+</script>
+
+
+<!-- add Client scripts clsoed here -->
+
+<script type="text/ng-template" id="editEventTemplate.html">
+	<div class="modal-content">
+		<form name="editEventTplFrm">
+			<div class="modal-header"> <!-- model header starts from here -->
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"> <span aria-hidden="true"> x </span></button>
+				<center><h4 class="modal-title" id="myModalLabel">Update Available Buildings</h4> </center>
+			</div>
+			<!-- model header closed from here -->
+
+			<div class="modal-body"> <!-- model body starts here -->
+				<span ng-show="showForgetSuccess" >
+				  <alert  type="success" close="closeAlert('success')">
+				  {{successMsg}} </alert>
+				</span>
+				<span ng-show="showForgetError" >
+					<alert type ="danger" close="closeAlert('error')">
+					{{errorMsg}} </alert>
+				</span>
+
+				<div class="chn-pass-content">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<h4>Contact Person</h4>
+							<input type="text" class="form-control input-lg" name="eventclient" ng-model="myselect" readonly="true">
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label>Date:</label>
+							<div class="dateFilter">
+								<div class="calanderTip">
+									<datepicker ng-model='activeDate' name="startFrom" min-date="minDate" multi-select='selectedDates' ng-click="addDate(selectedDates)">
+									</datepicker>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div> <!-- model body starts here -->
+			<div class="modal-footer"> <!-- model footer starts here -->
+				<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+				<input type="submit" value="Submit" class="btn btn-success" ng-disabled="editEventTplFrm.$invalid"  ng-class="{'disabled' : editEventTplFrm.$invalid}" novalidate ng-click="editEvent(info)">
+			</div> <!-- model footer closed here -->
+		</form>
+	</div> <!-- model content clsoed here -->
+</script>
+
+<!-- add Event script template starts here -->
+<script type="text/ng-template" id="addEventTemplate.html">
+	<div class="modal-content">
+		<form name="addEventTplFrm">
+			<div class="modal-header"> <!-- model header starts from here -->
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"> <span aria-hidden="true"> x </span></button>
+				<center><h4 class="modal-title" id="myModalLabel">Add Available Buildings</h4> </center>
+			</div>
+			<!-- model header closed from here -->
+
+			<div class="modal-body"> <!-- model body starts here -->
+				<span ng-show="showForgetSuccess" >
+				  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+				</span>
+				<span ng-show="showForgetError" >
+					<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+				</span>
+
+				<div class="chn-pass-content">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addEventTplFrm.eventclient.$invalid && !addEventTplFrm.eventclient.$pristine }">
+							   <h4>Contact Person</h4>
+							   <input type="text" class="form-control input-lg" name="eventclient" ng-model="info.userId.displayName" readonly="true">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label>Date:</label>
+							<div class="dateFilter">
+								<div class="calanderTip">
+									<datepicker ng-model='activeDate' name="startFrom" min-date="minDate" multi-select='selectedDates' ng-click="addDate(selectedDates)">
+									</datepicker>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- model body starts here -->
+			<div class="modal-footer"> <!-- model footer starts here -->
+				<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+				<input type="submit" value="Submit" class="btn btn-success" ng-disabled="addEventTplFrm.$invalid" ng-class="{'disabled' : addEventTplFrm.$invalid}" novalidate ng-click="addEvent(info)">
+			</div> <!-- model footer closed here -->
+		</form>
+	</div> <!-- model content closed here -->
+</script>

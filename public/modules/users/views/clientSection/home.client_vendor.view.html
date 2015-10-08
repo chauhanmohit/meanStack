@@ -1,0 +1,93 @@
+<div class="row col-lg-12">
+	<!-- Page Heading -->
+	<div class="page-title">
+		<h3>Dashboard</h3>
+		<div class="page-breadcrumb">
+			<ol class="breadcrumb">
+			    <li><a href="#!/client/dashboard/booklist">Home</a></li>
+			    <li><a href="#!/client/dashboard/vendorsList">Vendor Lisitng</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="panel panel-white">
+		<div class="panel-heading">
+			<h3><i class="fa fa-money fa-fw"></i> Vendors listing</h3>
+		</div>
+		<div class="panel-body">
+			<div class="gridStyle" ng-grid="gridOptions"  ng-show="vendorlist"></div>
+			<span style="display:none;" > </span> <br>
+			<div class="row" ng-show="vendorInfo" >
+	        	<!-- <p><b>{{vend}}</b></p> -->
+	        	<div class="col-lg-12 add-event">
+	                <div class="panel panel-white ">
+		                <table id="table" class="table table-striped" style="width:100% !important;">
+		                    <thead>
+		                        <tr>
+		                            <th>Date</th>
+		                            <th>Date Booked</th>
+		                            <th>Fee</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody id="tbody">
+		                    <tr id="tr" ng-repeat="each in vend">
+					  			<td> {{each.created | date: fullDate}} </td>
+								<td> {{each.bookingdate | date: fullDate}} </td>
+								<td class="glyphicon glyphicon-usd">{{each.fee}} </td>
+							</tr>
+							</tbody>
+						</table>
+		            </div>
+		        </div><br><br>
+
+				<!-- show Vendor info here -->
+				<div class="row">
+					<!-- /.row -->
+					<div class="col-lg-12">
+						<h4 class="vendHeader">Vendor Account Info</h4>
+						<div class="account-info">
+							<!-- <div class="account-img">
+							  	<img src="images/profile.png" class="img-responsive">
+							</div> -->
+							<div class="full-account-detail">
+							  <h2>{{currentVendor}}</h2>
+								<div class="account-side-info">
+									<address>
+										{{data.companyName}}, {{dsata.place}}
+									</address>
+				       				<div class="acc-info">
+				       					<h4><i class="fa fa-phone i-space"></i>
+				       					Phone</h4>
+					     				<p> {{data.phone}} </p>
+					   				</div>
+					            	<div class="acc-info">
+					            		<h4><i class="fa fa-envelope-o i-space"></i>
+					            		Email</h4>
+										<p> {{data.email}} </p>
+									</div>
+									<div class="acc-info">
+										<h4><i class="fa fa-calendar i-space"></i>
+										Latest Booking</h4>
+										<p> {{data.latestBooking | date:'mediumDate'}} </p>
+									</div>
+					           	</div>
+
+								<div class="about-info">
+						            <div class="acc-info">
+						            	<h4><i class="fa fa-tag i-space"></i>
+						            	Category</h4>
+						            	<p> {{data.category}} </p>
+						            </div>
+						            <div class="acc-info">
+						            	<h4><i class="fa fa-usd i-space"></i>
+						            	Total Owed</h4>
+						            	<p> ${{data.totalOwned}} </p>
+						            </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	     	</div>
+	    </div>
+	</div>
+</div>

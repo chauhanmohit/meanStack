@@ -1,0 +1,83 @@
+<section class="row" data-ng-controller="AuthenticationController">
+<div class="container login-page">
+	<!------------logo---------->
+	<div class="row">
+	       <div class="col-lg-12 text-center ">
+	       <div class="logo text-center">
+		 <a  class="navbar-brand logo-brand" href="/#!/" class="navbar-brand"><img src="../../../../lib/logo_pow.png" /></a>
+		   </div>
+	       </div>
+	 </div>
+
+	<!------------Login form---------->
+	<div class="admin-login-form">
+	<div class="row">
+		<div class="col-lg-12">
+			<form data-ng-submit="signin()" class="login-form signin" autocomplete="off">
+				<h3 class="form-title">Sign In</h3>
+				<div role="alert" data-ng-show="error" class="alert alert-warning alert-danger alert-dismissible">
+					<strong data-ng-bind="error"></strong>
+				</div>
+				<div class="form-group">
+					<label>Username</label>
+						<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username" autocomplete="off" />
+				</div>
+
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" autocomplete="off" />
+				</div>
+
+				<div class="form-group">
+				 <!-- <a href="/#!/password/admin/forgot">Forgot your password?</a> -->
+				 <a href="javascript:void(0);" data-ng-click="forgotPassword()">Forgot your password?</a>
+				</div>
+				<button type="submit" class="btn btn-lg btn-block btn-bg">Login</button>
+				<a href="/#!/register" class="btn btn-lg btn-block btn-bg">Become vendor</a>
+			</form>
+		</div>
+	</div>
+	</div>
+
+</div> <!--container login-page div closed-->
+</section>
+
+<script type="text/ng-template" id="forgotPassword.html" >
+
+	<div class="modal-content">
+		<form name="forgotPasswordForm" novalidate data-ng-submit="changePassword()">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="cancel()"  ><span aria-hidden="true"> x </span></button>
+				<h4 class="modal-title" id="myModalLabel">Forgot your Password?</h4>
+			</div> <!-- model header closed here -->
+
+			<div class="modal-body">
+				<alert type="warning" data-ng-show="showSpinner">We are currently processing your request. please wait... <img data-ng-show="showSpinner" src="modules/users/img/ajax-loader.gif" alt="showSpinner"></alert>
+
+				<span data-ng-show="showForgetSuccess" >
+					<alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+				</span>
+
+				<span data-ng-show="showForgetError" >
+					<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+				</span>
+				<div class="chn-pass-content">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div data-ng-class="{ 'has-error' : forgotPasswordForm.forget.$invalid && !forgotPasswordForm.forget.$pristine }"  >
+								<label>Please enter your email id. </label>
+								<input type="email" name="forget" class="form-control input-lg" data-ng-model="forgetuser.email" required />
+								<p data-ng-show="forgotPasswordForm.forget.$invalid && !forgotPasswordForm.forget.$pristine" class="alert alert-danger" >Please enter a valid email address </p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- model body closed here -->
+
+			<div class="modal-footer">
+				<button data-ng-click="cancel()" class="btn btn-danger">Cancel</button>
+				<input type="submit" value="Submit" data-ng-click="showLoader()" class="btn btn-success"  data-ng-disabled="forgotPasswordForm.$invalid"  data-ng-class="{ 'disabled' : forgotPasswordForm.$invalid }"  >
+			</div> <!-- model footer closed here -->
+		</form>
+	</div>
+</script>

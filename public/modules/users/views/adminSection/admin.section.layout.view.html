@@ -1,0 +1,65 @@
+
+<header id="fix-top" data-ng-include="'/modules/users/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+
+<section> <!--data-ng-controller="adminDashboardController"-->
+	<div id="page-wrapper" class="col-lg-12 ">
+		<div class="col-lg-2">
+			<div class="navbar-inverse">
+			<ul class="nav navbar-nav side-nav">
+				<li class="admin-profile text-center">
+					<div class="admin-img">
+						<img src="modules/users/img/adminSectionImg/profile.png" class="img-responsive">
+					</div>
+					<div class="admin-name">
+						<h4>Powell j</h4>
+						<span><i class="icon-circle"></i>Online</span>
+					</div>
+				</li>
+				<li data-ui-sref-active="active" >
+					<a data-ui-sref="adminDashboard.booking"><i class="fa fa-money fa-fw"></i> Booking</a>
+				</li>
+				<li data-ui-sref-active="active">
+					<a data-ui-sref="adminDashboard.VendorListing"><i class="fa fa-user"></i> Vendors</a>
+				</li>
+						<li data-ui-sref-active="active">
+					<a data-ui-sref="adminDashboard.ClientListing"><i class="fa fa-user"></i> Clients</a> 
+					
+					<!-- <ul>					
+					
+                    <li data-ui-sref-active="active">
+					<a data-ui-sref="adminDashboard.EventListing"><i class="fa fa-user"></i> Buildings</a>
+				</li>
+				</ul> -->
+					</li>
+                <li data-ui-sref-active="active">
+					<a data-ui-sref="adminDashboard.OurPolicy"><i class="fa fa-user"></i> Our Policy</a>
+				</li>
+			</ul>
+			</div>
+		</div>
+	        <div class="row col-lg-10">
+                        <div class="row">
+                            <div class="col-lg-12" data-ui-view="">  </div>
+                        </div>
+                </div><!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+				
+		<script type="text/javascript">
+   $("ul.side-nav li").click(function() {
+
+  if ($(this).is(".currentMenu")) {
+    $(this).removeClass("currentMenu");
+  } else {
+    $(this).addClass("currentMenu");
+  }
+
+  $("ul.side-nav li").not(this).removeClass("currentMenu");
+});
+</script>
+</section>
+
+<footer id="fix-foot" data-ng-include="'/modules/users/views/footer.client.view.html'"></footer>

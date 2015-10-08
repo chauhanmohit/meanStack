@@ -1,0 +1,53 @@
+<header id="fix-top" data-ng-include="'/modules/users/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+
+<section>
+	<div id="page-wrapper" class="col-lg-12 ">
+		<div class="col-lg-2">
+			<div class="navbar-inverse">
+			<ul class="nav navbar-nav side-nav">
+				<li class="admin-profile text-center">
+					<div class="admin-img">
+						<img src="modules/users/img/adminSectionImg/profile.png" class="img-responsive">
+					</div>
+					<div class="admin-name">
+						<h4>Powell j</h4>
+						<span><i class="icon-circle"></i>Online</span>
+					</div>
+				</li>
+				<li data-ui-sref-active="active" >
+					<a data-ui-sref="clientDashboard.booking"><i class="fa fa-money fa-fw"></i> Booking</a>
+				</li>
+				<li data-ui-sref-active="active">
+					<a data-ui-sref="clientDashboard.VendorListing"><i class="fa fa-user"></i> Vendors</a>
+				</li>
+			</ul>
+			</div>
+		</div>
+	        <div class="row col-lg-10">
+			<div class="row col-lg-12">
+				<!-- Page Heading -->
+
+                        <div class="row">
+                            <div class="col-lg-12" data-ui-view="">
+                                <!-- JUST SAMPLE BOOKING DATA -->
+                                <div class="panel panel-white">
+                                    <div class="panel-heading">
+                                        <h3><i class="fa fa-money fa-fw"></i> Booking</h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                            </div>
+                        </div>
+                        </div>
+                        <!-- CLOSED JUST SAMPLE BOOKING DATA -->
+                    </div>
+                </div>
+        </div><!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->
+</section>
+
+<footer id="fix-foot" data-ng-include="'/modules/users/views/footer.client.view.html'"></footer>

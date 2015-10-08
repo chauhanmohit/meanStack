@@ -1,0 +1,144 @@
+#fix-top{background:#cb4040; border-bottom:2px solid #9e2b2b;}
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover{background:#cb4040 !important;}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover{background:#cb4040;}
+.navbar-inverse .navbar-brand{color:#fff; font-size:35px;}
+.top-nav > li > a{color:#fff;}
+.myLoader > div {
+    margin: 5% auto 0;
+    width: 25%;
+}
+
+.search{float:left; position:relative;}
+.search input{float:left; background:#9e2b2b; border-radius:0px; border:none; height:50px; width:350px; max-width:100%; margin-left:4px; color:#fff;}
+.search  a{position:absolute; right:0; color:#fff; font-size:24px;}
+.search  a:hover, .search  a:focus{color:#fff; border:none;}
+
+.admin-profile{width:100%; margin:15px 0px;}
+.admin-img{width:100px; height:100px; margin:auto; display:inline-block;}
+.admin-img img{border-radius:50%;}
+.admin-name{width:100%; text-align:center;  margin:5px 0px; float:left;}
+.admin-name h4{color:#fff; font-size:18px; margin:0px;}
+.admin-name span {color:#41c507; font-size:10px;}
+
+.login-page{width:450px; max-width:100%;}
+.logo-brand {display: inline-block; float: none; text-align: center; color:#fff; font-size:26px; text-transform:uppercase; margin-bottom:40px;}
+.logo-brand span{color:#CB4040;}
+
+
+.admin-login-form {background-color: #eceef1; border-radius: 0;  margin: auto; overflow: hidden;  padding: 30px; position: relative; margin-bottom:20px;}
+.admin-login-form h3 {color: #CB4040; font-size: 28px;  font-weight: 400 !important;  margin: 0 0 20px; text-align: center;}
+
+.login-form {overflow: hidden;  position: relative;font-size: 14px;  font-weight: normal;}
+.admin-login-form  form.login-form .form-group input.form-control{ background-color: #dde3ec;  border: 1px solid #dde3ec;   color: #8290a3;    height: 43px;border-radius:0px;	box-shadow:none;font-size: 14px;}
+.admin-login-form  form.login-form .form-group label{width:100%; font-weight:normal; margin-top:10px; color:#343434;}
+.admin-login-form  form.login-form .form-group  a{font-weight:normal; text-decoration:underline;}
+.admin-login-form  form.login-form .form-group  a:hover{color:#CB4040; text-decoration:none;}
+.btn-bg{background:#CB4040; border-radius:0px; color:#fff;}
+.btn-bg:hover, .btn-bg:focus{background:#a41616; border-radius:0px; color:#fff;}
+.alert.alert-warning.alert-danger.alert-dismissible{margin-top:10px;}
+
+a.vendor-btn {background: none repeat scroll 0 0 #CB4040;  border: medium none; border-radius: 0; color: #fff; font-size: 14px; line-height: 40px;    padding: 0 0 0 10px;}
+a.vendor-btn i {border-left: 1px solid #a41616;  font-size: 10px;  margin-left: 10px;  padding: 15px;}
+a.vendor-btn:hover, a.vendor-btn:focus {background: none repeat scroll 0 0 #a41616;  border-radius: 0;  color: #fff;}
+a.vendor-btn:hover i, a.vendor-btn:focus i {border-left: 1px solid #CB4040;}
+
+.full-account-detail{float:left; width:82%; margin-left:3%;}
+.account-info {border: 1px solid #dedfdf;  min-height: 200px;  width: 100%; padding:15px; float:left; margin-bottom:15px;}
+.account-img{width:15%; float:left;}
+.account-img img{  border: 5px solid #fff; box-shadow: 0 0 1px #3e3e3e;}
+.account-side-info{width:23%; margin-left:2%; float:left;}
+.full-account-detail h2{margin-top:0px;}
+.about-info{width:22%; float:left; margin-left:3%; margin-top:64px;}
+.about-info h3{margin-top:0px;}
+
+.i-space{margin-right:10px;}
+.acc-info{margin-bottom:20px;}
+.acc-info h4{margin:0px; padding:0px; font-size:14px; font-weight:600;}
+.acc-info p{margin:0px; font-size:14px; font-style:italic; padding-left:22px;}
+
+.right-side-info{width:45%; float:left; margin-left:3%;}
+
+
+
+
+
+/*******************top-navigation**********/
+.nav-top{}
+.nav.navbar-nav.nav-top a{color:#fff !important;}
+.nav.navbar-nav.nav-top a:hover{background:#a41616 !important;}
+
+
+/**********************userflow*************************/
+.btn-bg-green{background:#60aa2f; color:#fff; border-radius:0px; margin-bottom:0px; margin-top:15px !important;}
+.btn-bg-green:hover{background:#3a810b; color:#fff;}
+.user-register-page{width:550px; max-width:100%;}
+.a-r-fee{width:100%; float:left;}
+.a-r-fee h4{color:#CB4040; font-size:24px; float:left; width:100%;}
+.a-r-fee p{font-size:12px; float:left; width:100%; text-align:left;}
+.user-register-page .btn-bg{float:none; display:inline-block; width:300px; max-width:100%; margin-top:30px;}
+
+.user-thanks{margin-top:90px;}
+.user-thanks h2{color:#000;}
+.user-thanks p{ font-size:16px; padding:0% 10%; line-height:normal;}
+
+#div2,#div3{
+    display:none;
+}
+
+
+
+/**============================new CSS===================================**/
+#page-wrapper{min-height:765px;} 
+#fix-foot {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+	z-index:99999;
+}
+.footer-new{padding-left:18% !important; border-top:none  !important; background:#34425A  !important;}
+
+
+.nav.navbar-nav.side-nav a{background:#34425A;}
+.side-nav > li ul{display:none; margin:0px; padding:0px;}
+.side-nav > li ul li { background:#2B384E; border-bottom:1px solid #2B384E; }
+.side-nav > li ul li a{display:inline-block; width:100%; padding-left:50px !important; }
+li.currentMenu ul{display:block;}
+.navbar-inverse .navbar-nav > li > a i.fa.fa-caret-down{float:right; font-size:16px; text-align:right; margin-top:5px;}
+
+
+
+
+@media screen and (max-width: 800px) {
+.search{display:none;}
+}
+@media screen and (max-width: 767px) {
+#fix-foot{position:relative;}
+.footer-new{padding-left:0px !important; text-align:center;}
+.footer-new .col-xs-6{width:100%;}
+#page-wrapper .col-lg-2{width:100%; padding:0px; margin:0px;}
+.navbar-brand > img {
+    margin: 12px;
+    max-height: 45px;
+    width: auto;
+}
+.nav.navbar-nav.side-nav{margin-top:0px;}
+.navbar-inverse .navbar-brand{padding:0px;}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{background:#fff;}
+.nav.navbar-nav.nav-top{margin-top:0px; margin-bottom:0px;}
+.nav.navbar-nav.nav-top > li{border-bottom:1px solid #e3e3e3;}
+.navbar-collapse.in{overflow-y:visible  !important;}
+.nav.navbar-right.top-nav{position:relative !important; right:0px  !important; left:0px  !important; width:100%  !important; padding:0px  !important; margin:0px  !important;}
+.dropdown{width:100%;}
+.dropdown-toggle{padding:12px 0px !important;}
+b.caret {
+    float: right;
+    margin-top: 8px;
+}
+.dropdown-menu{width:100%;}
+
+}
+@media screen and (max-width: 640px) {
+li.admin-profile{display:none;}
+}
+
+.ta-hidden-input{display: none;}

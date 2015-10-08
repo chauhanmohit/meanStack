@@ -1,0 +1,116 @@
+<div class="row col-lg-12">
+	<!-- Page Heading -->
+	<div class="page-title">
+		<h3> Dashboard </h3>
+		<div class="page-breadcrumb">
+			<ol class="breadcrumb">
+			    <li><a href="#!/admin/dashboard/bookingListing">Home</a></li>
+			    <li><a href="#!/admin/dashboard/bookingListing">Our Policies</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="panel panel-white">
+	    <div class="panel-heading">
+		<h3><i class="fa fa-money fa-fw"></i> Our Policies </h3>
+	    </div>
+
+		<tabset justified="true">
+		    <tab heading="Guidelines and Policies">
+				<!-- Guidelines SEction-->
+			    <div class="panel-body">
+		        	<div class="col-lg-12 add-policy" ng-init="guideline()">
+		                <div class="panel panel-white ">
+		                    <div class="panel-body">
+							<div class="policy-detail">
+							   <h4>Title</h4>
+							   <input class="form-control input-lg" name="guidelineTitle" type="text" data-ng-model="guideline.title" placeholder="Title" required=""/>
+							</div>
+							<div class="policy-detail">
+							   <h4>Description</h4>
+							    <div ng-init="guideline.description='Add text'">
+								    <text-angular name="guidelinedescription"  ng-model="guideline.description" placeholder="Guideline Description"> </text-angular> <br/>
+								    <!-- <textarea class="result" ng-model="guideline.description" style="width:100%;" readonly> </textarea> -->
+								    <button ng-click="guideline.description='Add text'" class="reset-btn">Reset</button>
+								</div>
+							</div> <br/>
+							<div class="policy-detail-btn">
+							   <a type="submit" class="btn btn-lg btn-bg" data-ng-click="editGuideline(guideline)" href="javascript:void(0);">
+							   Update Guidelines</a>
+							</div> <br/>
+							<div class="policy-detail">
+								<span ng-show="showMsg" >
+									<alert type ="success" close="closeAlert('error')"> {{msg}} </alert>
+								</span>
+							</div>
+		                    </div>
+		                </div>
+		            </div>
+		    	</div>
+		    </tab>
+
+		    <tab heading="Contact Us">
+			<!-- Contact us SEction-->
+				<div class="panel-body">
+		        	<div class="col-lg-12 add-policy" ng-init="contact()">
+		                <div class="panel panel-white ">
+		                    <div class="panel-body">
+							<div class="policy-detail">
+							   <h4>Title</h4>
+							   <input class="form-control input-lg" name="contactTitle" type="text" data-ng-model="contact.title" placeholder="Title" required=""/>
+							</div>
+							<div class="policy-detail">
+							   <h4>Description</h4>
+							    <div ng-init="contact.description='Add text'">
+								    <text-angular name="contactdescription"  ng-model="contact.description" placeholder="Contact Description"> </text-angular> <br/>
+								    <!-- <textarea class="result" ng-model="contact.description" style="width:100%;" readonly> </textarea> -->
+								    <button ng-click="contact.description='Add text'" class="reset-btn">Reset</button>
+								</div>
+							</div> <br/>
+							<div class="policy-detail-btn">
+							   <a type="submit" class="btn btn-lg btn-bg" data-ng-click="editContact(contact)" href="javascript:void(0);">Update Contact Details</a>
+							</div> <br/>
+							<div class="policy-detail">
+								<span ng-show="showMsg" >
+									<alert type ="success" close="closeAlert('error')"> {{msg}} </alert>
+								</span>
+							</div>
+		                    </div>
+		                </div>
+		            </div>
+		    	</div>
+		    </tab>
+
+		    <tab heading="Help">
+			<!-- Help SEction-->
+		    	<div class="panel-body">
+		        	<div class="col-lg-12 add-policy" ng-init="help()">
+		                <div class="panel panel-white ">
+		                    <div class="panel-body">
+							<div class="policy-detail">
+							   <h4>Title</h4>
+							   <input class="form-control input-lg" name="helpTitle" type="text" data-ng-model="help.title" placeholder="Title" required=""/>
+							</div>
+							<div class="policy-detail">
+							   <h4>Description</h4>
+							    <div ng-init="help.description='Add text'">
+								    <text-angular name="helpdescription"  ng-model="help.description" placeholder="Help Description"> </text-angular> <br/>
+								   <!--  <textarea class="result" ng-model="help.description" style="width:100%;" readonly> </textarea> -->
+								    <button ng-click="help.description='Add text'" class="reset-btn">Reset</button>
+								</div>
+							</div> <br/>
+							<div class="policy-detail-btn">
+							   <a type="submit" class="btn btn-lg btn-bg" data-ng-click="editHelp(help)" href="javascript:void(0);">Update Help Details</a>
+							</div> <br/>
+							<div class="policy-detail">
+								<span ng-show="showMsg" >
+									<alert type ="success" close="closeAlert('error')"> {{msg}} </alert>
+								</span>
+							</div>
+		                    </div>
+		                </div>
+		            </div>
+		    	</div>
+		    </tab>
+		</tabset>
+	</div>
+</div>

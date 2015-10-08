@@ -1,0 +1,31 @@
+@media (min-width: 992px) {
+	.nav-users {
+		position: fixed;
+	}
+}
+.remove-account-container {
+	display: inline-block;
+	position: relative;
+}
+.btn-remove-account {
+	top: 10px;
+	right: 10px;
+	position: absolute;
+}
+.back {
+    float: right;
+}
+.clientFee {
+    padding: 23px;
+}
+.v-side-nav td {
+    width: 100%;
+}
+.mybtn1.dates-btn {
+    background-color: #22baa0 !important;
+    border: medium none #22baa0 !important;
+    font-size: 13px;
+    margin-left: 37px;
+    margin-top: auto;
+    padding: 4px 6px;
+}

@@ -1,0 +1,136 @@
+<header id="fix-top" data-ng-include="'/modules/users/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+
+<div id="page-wrapper" ng-controller="vendorDashboardController">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-5 pull-left customTabbedPannel ">
+				<h2 class="page-header"> Available Buildings </h2>
+
+				<div ng-show="active == true">
+					<div class="clientFilter">
+							<input type="text" class="form-control" ng-model="searchClient" ng-required="true">
+						</div>
+						<div ng-repeat="all in allClientListing | filter: {displayName: searchClient} | startFrom:SingleEventPage*SingleEventPageSize | limitTo:SingleEventPageSize">
+							<ul class="v-side-nav">
+                             <li>                            
+                             <table>
+                             	<tr>
+                             		<td>{{all.displayName}}</td>
+                             		<td class="feeTd">${{all.fee}}</td>
+                             		<td><button class="btn btn-success mybtn1 dates-btn" ng-click="proceed(all.id)"> See Dates </button></td>
+                             	</tr>
+                             </table>
+                             <div class=" msg">
+                             <div class="popover top">
+						      <!-- <div class="arrow"></div> -->
+						      <h3 class="popover-title">{{all.name}}</h3>
+						      <div class="popover-content">
+						         <div class="employee-info"> {{all.displayName}}
+									<p><b>Employee</b>&nbsp;-&nbsp;{{all.employee}}</p>
+									<address>
+									<b>Address</b><br>
+									{{all.address}}</address>
+								 </div>
+						          <div class="fee-part"><h4>Fee</h4><p>${{all.fee}}</p></div>
+						      </div>
+						    </div>
+						    </div>
+						    <!-- <div class="bookingBtn">
+                     			<button ng-click="toggleModal(all)" class="btn btn-success mybtn1 " > Book </button>
+                     		</div> -->
+                        </li>
+                        </ul></div>
+				<br/>
+
+				<button ng-disabled="SingleEventPage == 0" ng-click="SingleEventPage=SingleEventPage-1" ng-show="numberOfPages() > 0">
+				Previous
+				</button>
+				<span ng-show="numberOfPages() > 0">{{SingleEventPage+1}}/{{numberOfPages()}}</span>
+				<button ng-disabled="SingleEventPage >= allClientListing.length/SingleEventPageSize - 1" ng-click="SingleEventPage=SingleEventPage+1" ng-show="numberOfPages() > 0">
+				Next
+				</button>		
+						
+                        </div>
+
+                        <div ng-show="active == false">
+                        <button type="button" ng-click="backToClient()" class="backButton">Back</button>
+                        	<div class="dateFilter">
+							<div class="calanderTip">
+								<!--<input type="text" class="form-control" name="startFrom" datepicker-popup="{{format}}" ng-model="dt1" datepicker-options="dateOptions" is-open="$parent.opened" ng-change="showResult(dt1)" ng-required="true" readonly="true" close-text="Close"/>
+									<button type="button" class="btn btn-default" ng-click="open($event,'opened')">
+									<i class="glyphicon glyphicon-calendar"></i></button>
+								</span>-->
+								<input type="text" ng-change="setFilter(dt1)" name="startFrom" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" datepicker-options="dateOptions" is-open="opened" ng-required="true" close-text="Close" ng-required="true"/>
+									<button type="button" class="btn btn-default" ng-click="open($event,'opened')">
+									<i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+							<div class="searchBtn">
+								<button class="btn btn-primary" data-ng-click="resetFilter()">
+								Reset</button>
+							</div>
+						</div>
+						<div class="myLoader" ng-show="showLoader"><div><img src="../../../../lib/712.GIF" alt="loader" /></div></div>
+						<div ng-repeat="all in data | orderBy: 'date' | filter: searchDate | startFrom:SingleEventPage1*SingleEventPageSize1 | limitTo:SingleEventPageSize1" >
+							<ul class="v-side-nav">
+							<li>
+								<div class="dateOptions">{{all.date}}</div>
+								<div class="bookingBtn">
+									<button ng-click="toggleModal(all)" class="btn btn-success mybtn1"> Book </button>
+								</div>
+							</li>
+						</div>
+						
+						<button ng-disabled="SingleEventPage1 == 0" ng-click="SingleEventPage1=SingleEventPage1-1" ng-show="numberOfPages1() > 0">
+						Previous
+						</button>
+						<span ng-show="numberOfPages1() > 0">{{SingleEventPage1+1}}/{{numberOfPages1()}}</span>
+						<button ng-disabled="SingleEventPage1 >= (eventListing/SingleEventPageSize1) - 1" ng-click="SingleEventPage1=SingleEventPage1+1" ng-show="numberOfPages1() > 0">
+						Next
+						</button>
+						
+	                        </div>
+		        </div>
+		        <div class="col-lg-9 col-md-9 col-sm-7 pull-right customCallender">
+					<h2 class="page-header"> My Bookings </h2>
+					<div ui-calendar="uiConfig.calendar" ng-model="eventSources">
+					</div>
+				</div><!-- /.row -->
+			</div><!-- /.container-fluid -->
+		</div><!-- /#page-wrapper -->
+
+<footer id="fix-foot" data-ng-include="'/modules/users/views/footer.client.view.html'"></footer>
+
+<!-- Book Event script template starts here -->
+<script type="text/ng-template" id="confirmBooking.html">
+	<div class="modal-content">
+		<form name="bookEventTplFrm">
+			<div class="modal-header">
+				<center>
+					<button type="button" class="close" aria-label="Close" data-dismiss="modal" ng-click="cancel()"> <span aria-hidden="true"> x </span></button><br/>
+					<div class="modal-body">
+						<span ng-show="showForgetSuccess" >
+						  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+						</span>
+
+						<span ng-show="showForgetError" >
+							<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+						</span>
+
+						<div class="modal-body confirm-content"  >
+					        <h3>Confirm Booking</h3>
+					        <div class="col-lg-3"><h4>Name</h4><p> {{bookData.displayName}} </p></div>
+					         <div class="col-lg-3"><h4>Address</h4><p> {{bookData.address}} </p></div>
+					        <div class="col-lg-3"><h4>Date</h4><p> {{bookData.date | date: fullDate}} </p></div>
+					         <div class="col-lg-3"><h4>Fee</h4><p> ${{bookData.fee}} </p></div>
+				      	</div>
+				        <div class="modal-footer">
+					        <button type="button" class="btn btn-primary btn-color" data-ng-click="bookEvent(bookData)">Confirm Booking</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+					    </div>
+				    </div>
+				</center>
+			</div>
+		</form>
+	</div> <!-- model content clsoed here -->
+</script>

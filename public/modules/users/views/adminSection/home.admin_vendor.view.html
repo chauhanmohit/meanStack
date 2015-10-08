@@ -1,0 +1,336 @@
+<div class="row col-lg-12">
+	<!-- Page Heading -->
+	<div class="page-title">
+	<h3>Dashboard</h3>
+	<div class="page-breadcrumb">
+		<ol class="breadcrumb">
+		    <li><a href="#!/admin/dashboard/bookingListing">Home</a></li>
+		    <li><a href="/#!/admin/dashboard/vendorListing">Vendor Lisitng</a></li>
+		</ol>
+	</div>
+</div>
+<div class="panel panel-white">
+	<div class="panel-heading">
+		<h3><i class="fa fa-money fa-fw"></i> Vendors listing</h3>
+		<button type="button" ng-click="changeState()" ng-show="infoVendorDiv" class="back">Back</button>
+	</div>
+	<div class="panel-body" ng-hide="infoVendorDiv">
+		<div class="gridStyle" ng-grid="gridOptions"></div>
+		<span style="display:none;" ng-bind="info = gridOptions.selectedItems[0]"> </span> <br>
+
+		<span ng-show="showForgetSuccess" >
+		  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+		</span>
+		<span ng-show="showForgetError" >
+			<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+		</span>
+
+		<div class="text-right">
+		    <a role="button" class="btn btn-primary btn-lg pull-right vendor-btn" data-ng-click="addVendor()" href="javascript:void(0);">Add New Vendor<i class="fa fa-plus"></i></a>
+		</div>
+	</div>
+
+	<!-- show Vendor info here -->
+	<div class="row" ng-show="infoVendorDiv">
+		<!-- /.row -->
+		<div class="col-lg-12">
+			<h4 class="t-name">Powell Account Info</h4>
+			<div class="account-info">
+				<!-- <div class="account-img">
+				  	<img src="images/profile.png" class="img-responsive">
+				</div> -->
+				<div class="full-account-detail">
+				  <h2>{{data.displayName}}</h2>
+					<div class="account-side-info">
+						<address> {{data.companyName}}, {{data.place}} </address>
+	       				<div class="acc-info">
+	       					<h4><i class="fa fa-phone i-space"></i>Phone</h4>
+		     				<p> {{data.phone}} </p>
+		   				</div>
+		            	<div class="acc-info">
+		            		<h4><i class="fa fa-envelope-o i-space"></i>Email</h4>
+							<p> {{data.email}} </p>
+						</div>
+						<div class="acc-info">
+							<h4><i class="fa fa-calendar i-space"></i>Latest Booking</h4>
+							<p> {{data.latestBooking | date:'mediumDate'}} </p>
+						</div>
+		           	</div>
+
+					<div class="about-info">
+			            <div class="acc-info">
+			            	<h4><i class="fa fa-tag i-space"></i>Category</h4>
+			            	<p> {{data.category}} </p>
+			            </div>
+			            <div class="acc-info">
+			            	<h4><i class="fa fa-usd i-space"></i>Total Owed</h4>
+			            	<p> ${{data.totalOwned}} </p>
+			            </div>
+					</div>
+					<div class="right-side-info">
+					  <h4>Vendor Booking Listing</h4>
+					    <p> {{data.description}} </p>
+					    <table  class="table table-striped">
+						    <thead>
+							    <tr>
+								<th>Sr</th>
+							    	<th>Client</th>
+							    	<th>Booking</th>
+							    	<th>Fee</th>
+							    </tr>
+							</thead>
+							<tbody>
+							    <tr ng-repeat="info in bookingInfo | startFrom:SingleEventPage*SingleEventPageSize | limitTo:SingleEventPageSize">
+								<td>{{$index}}</td>
+							    	<td>{{info.client}}</td>
+							    	<td>{{info.bookingdate}}</td>
+							    	<td>${{info.fee}}</td>
+							    </tr>
+							</tbody>
+					    </table>
+					<button ng-disabled="SingleEventPage == 0" ng-click="SingleEventPage=SingleEventPage-1" ng-show="numberOfPages() > 0">
+					Previous
+					</button>
+					<span ng-show="numberOfPages() > 0">{{SingleEventPage+1}}/{{numberOfPages()}}</span>
+					<button ng-disabled="SingleEventPage >= eventInfo.length/SingleEventPageSize - 1" ng-click="SingleEventPage=SingleEventPage+1" ng-show="numberOfPages() > 0">
+					Next
+					</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- edit Vendor script template starts here -->
+		<script type="text/ng-template" id="editVendorTemplate.html">
+			<div class="modal-content">
+        	<form name="eventForm" id="eventForm">
+                <div class="modal-header"> <!-- model header starts from here -->
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"> <span aria-hidden="true"> x </span></button>
+						<center><h4 class="modal-title" id="myModalLabel">Update Vendor</h4> </center>
+					</div>
+					<!-- model header closed from here -->
+
+					<div class="modal-body"> <!-- model body starts here -->
+						<span ng-show="showForgetSuccess" >
+						  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+						</span>
+
+						<span ng-show="showForgetError" >
+							<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+						</span>
+
+                    <div class="panel-body">
+						<div class="form-group">
+						   <div><h4>Vendor</h4>
+							   	<div ng-class="{'has-error': eventForm.displayname.$invalid && !eventForm.displayname.$pristine }">
+							   		<input class="form-control input-lg" name="displayname" type="text" data-ng-model="info.displayName" placeholder="Vendor Name" ng-pattern="/^[a-zA-Z ]*$/" required>
+							  		<span ng-show="(eventForm.displayname.$error.required)" class="help-block">Please fill Vendor name</span>
+			  						<span ng-show="(eventForm.displayname.$error.pattern)" class="help-block">Please use characters only</span>
+			  					</div>
+			  				</div>
+						</div>
+
+						<div class="form-group">
+						   <div><h4>Phone</h4>
+							   <div ng-class="{'has-error': eventForm.phone.$invalid && !eventForm.phone.$pristine }">
+							   		<input class="form-control input-lg" name="phone" type="text" data-ng-model="info.phone" placeholder="Phone" ng-pattern="/^[0-9+\s]*$/" ng-minlength="10" ng-maxlength="12" required/>
+							  		<span ng-show="(eventForm.phone.$error.required)" class="help-block">Please fill Phone number</span>
+			  						<span ng-show="(eventForm.phone.$error.pattern)" class="help-block">Please use digits only</span>
+			  						<span ng-show="((eventForm.phone.$error.minlength || eventForm.phone.$error.maxlength) && eventForm.phone.$dirty)" class="help-block">Phone number should be 10-12 digits</span>
+			  					</div>
+		  					</div>
+						</div>
+
+						<div class="form-group">
+						   <div><h4>Email</h4>
+						   		<input class="form-control input-lg" name="email" type="email" data-ng-model="info.email" placeholder="Email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" readonly>
+						   	</div>
+						</div>
+
+						<div class="form-group">
+							<div><label>Category:</label>
+								<div ng-class="{'has-error':eventForm.category.$invalid && !eventForm.category.$pristine }">
+									<select class="form-control input-lg" name="category" type="text" data-ng-model="info.category" required>
+										<option value="" selected="selected">Category</option>
+										<option value="Shoes">Shoes</option>
+										<option value="Sports Products">Sports Products</option>
+										<option value="Womens Clothing and Accessories">
+										Womens Clothing and Accessories</option>
+										<option value="Candy/Nuts">Candy/Nuts</option>
+										<option value="Handbags">Handbags</option>
+										<option value="Oils">Oils</option>
+										<option value="Home decor">Home decor</option>
+										<option value="Household products">Household products</option>
+										<option value="Socks">Socks</option>
+										<option value="Books">Books</option>
+										<option value="Scarfs and Accessories">Scarfs and Accessories</option>
+										<option value="Cosmetics">Cosmetics</option>
+										<option value="Beauty Supplies">Beauty Supplies</option>
+										<option value="Jewelry">Jewelry</option>
+										<option value="Sheets/Pillows/sheets/bedding">Sheets/Pillows/sheets/bedding</option>
+										<option value="Gift Items">Gift Items</option>
+										<option value="Dollar Store">Dollar Store</option>
+										<option value="Electronics">Electronics</option>
+										<option value="Cell phone accessories">Cell phone accessories</option>
+										<option value="Sneakers">Sneakers</option>
+										<option value="Body Products">Body Products</option>
+									</select>
+		                        	<span ng-show="(eventForm.category.$error.required)" class="help-block">Please select category</span>
+		                        </div>
+	                  		</div>
+						</div>
+					<div class="modal-footer"> <!-- model footer starts here -->
+						<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+						<input type="submit" value="Submit" class="btn btn-success" ng-disabled="eventForm.$invalid"  ng-class="{'disabled' : eventForm.$invalid}" novalidate ng-click="editVendor(info)">
+					</div> <!-- model footer closed here -->
+                    </div>
+                </div>
+            </form>
+        </div>
+        </script> <br><br>
+
+<!-- add vendor script template starts here -->
+
+<script type="text/ng-template" id="addVendorTemplate.html" >
+	<div class="modal-content">
+		<form name="addVendorTplFrm" novalidate ng-submit="addVendor(info)">
+			<div class="modal-header"> <!-- model header starts from here -->
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"  ><span aria-hidden="true"> x </span></button>
+				<center><h4 class="modal-title" id="myModalLabel">Add new vendor</h4> </center>
+			</div>
+			<!-- model header closed from here -->
+
+			<div class="modal-body"> <!-- model body starts here -->
+				<span ng-show="showForgetSuccess" >
+				  <alert  type="success" close="closeAlert('success')">{{successMsg}}</alert>
+				</span>
+
+				<span ng-show="showForgetError" >
+					<alert type ="danger" close="closeAlert('error')"> {{errorMsg}} </alert>
+				</span>
+
+				<div class="chn-pass-content">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.username.$invalid && !addVendorTplFrm.username.$pristine }">
+								<label>Username:</label>
+								<input class="form-control input-lg" name="username" type="text" data-ng-model="info.username" placeholder="User Name" ng-pattern="/^[a-zA-Z ]*$/" required>
+								<span ng-show="addVendorTplFrm.username.$error.required && !addVendorTplFrm.username.$pristine" class="help-block">Please fill Username</span>
+		  						<span ng-show="(addVendorTplFrm.username.$error.pattern)" class="help-block">Please use characters only</span>
+		  					</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.displayName.$invalid && !addVendorTplFrm.displayName.$pristine }">
+								<label>Contactname:</label>
+								<input class="form-control input-lg" name="displayName" type="text" data-ng-model="info.displayName" placeholder="Contact Name" autocomplete="off" ng-pattern="/^[a-zA-Z ]*$/" required>
+								<span ng-show="addVendorTplFrm.displayName.$error.required && !addVendorTplFrm.displayName.$pristine" class="help-block">Please fill Contact Name</span>
+			  					<span ng-show="(addVendorTplFrm.displayName.$error.pattern)" class="help-block">Please use characters only</span>
+		  					</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.companyName.$invalid && !addVendorTplFrm.companyName.$pristine }">
+								<label>Companyname:</label>
+								<input class="form-control input-lg" name="companyName" type="text" data-ng-model="info.companyName" placeholder="Company Name" autocomplete="off" ng-pattern="/^[a-zA-Z ]*$/" required>
+								<span ng-show="addVendorTplFrm.companyName.$error.required && !addVendorTplFrm.companyName.$pristine" class="help-block">Please fill Company Name</span>
+			  					<span ng-show="(addVendorTplFrm.companyName.$error.pattern)" class="help-block">Please use characters only</span>
+			  				</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label>Phone number:</label>
+							<div ng-class="{ 'has-error' : addVendorTplFrm.phone.$invalid && !addVendorTplFrm.phone.$pristine }"  >
+								<input class="form-control input-lg" name="phone" data-ng-pattern='/^[0-9+\s]*$/' type="text" data-ng-model="info.phone" placeholder="Phone" autocomplete="off" ng-minlength="10" ng-maxlength="12" required>
+								<span ng-show="addVendorTplFrm.phone.$error.required && !addVendorTplFrm.phone.$pristine" class="help-block">Please fill Phone Number</span>
+								<span ng-show="(addVendorTplFrm.phone.$error.pattern)" class="help-block">Please use digits only</span>
+								<span ng-show="(addVendorTplFrm.phone.$error.minlength || addVendorTplFrm.phone.$error.maxlength) && !addVendorTplFrm.phone.$pristine" class="help-block">Phone Number length 10-12 digits</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.email.$invalid && !addVendorTplFrm.email.$pristine }">
+								<label>Email address:</label>
+								<input class="form-control input-lg" name="email" type="email" data-ng-model="info.email" placeholder="Email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+								<span ng-show="addVendorTplFrm.email.$error.required && !addVendorTplFrm.email.$pristine" class="help-block">Please fill Email Address</span>
+								<span ng-show="(addVendorTplFrm.email.$error.pattern)" class="help-block">Please fill valid Email</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.category.$invalid && !addVendorTplFrm.category.$pristine }">
+								<label>Category:</label>
+								<select class="form-control input-lg" name="category" type="text" data-ng-model="info.category" required>
+									<option value="" selected="selected">Category</option>
+									<option value="Shoes">Shoes</option>
+									<option value="Sports Products">Sports Products</option>
+									<option value="Womens Clothing and Accessories">
+									Womens Clothing and Accessories</option>
+									<option value="Candy/Nuts">Candy/Nuts</option>
+									<option value="Handbags">Handbags</option>
+									<option value="Oils">Oils</option>
+									<option value="Home decor">Home decor</option>
+									<option value="Household products">Household products</option>
+									<option value="Socks">Socks</option>
+									<option value="Books">Books</option>
+									<option value="Scarfs and Accessories">Scarfs and Accessories</option>
+									<option value="Cosmetics">Cosmetics</option>
+									<option value="Beauty Supplies">Beauty Supplies</option>
+									<option value="Jewelry">Jewelry</option>
+									<option value="Sheets/Pillows/sheets/bedding">Sheets/Pillows/sheets/bedding</option>
+									<option value="Gift Items">Gift Items</option>
+									<option value="Dollar Store">Dollar Store</option>
+									<option value="Electronics">Electronics</option>
+									<option value="Cell phone accessories">Cell phone accessories</option>
+									<option value="Sneakers">Sneakers</option>
+									<option value="Body Products">Body Products</option>
+								</select>
+								<span ng-show="(addVendorTplFrm.category.$error.required && !addVendorTplFrm.category.$pristine)" class="help-block">
+								Please select category</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.password.$invalid && !addVendorTplFrm.password.$pristine }"  >
+								<label>Desired password:</label>
+								<input class="form-control input-lg" type="password" name="password" data-ng-model="info.password" placeholder="Desired password" ng-minlength="7" ng-maxlength="16" required>
+								<span ng-show="addVendorTplFrm.password.$error.required && !addVendorTplFrm.password.$pristine" class="help-block">Please fill Password</span>
+								<span ng-show="(addVendorTplFrm.password.$error.minlength || addVendorTplFrm.password.$error.maxlength) && !addVendorTplFrm.password.$pristine" class="help-block">Password length 7-16 characters</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div ng-class="{ 'has-error' : addVendorTplFrm.cpassword.$invalid && !addVendorTplFrm.cpassword.$pristine }"  >
+								<label>Confirm password:</label>
+								<input class="form-control input-lg" name="cpassword" type="password" data-ng-model="info.cpassword" placeholder="Confirm Password" required>
+								<span ng-show="addVendorTplFrm.cpassword.$invalid && !addVendorTplFrm.cpassword.$pristine" class="help-block">Please Confirm password</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- model body starts here -->
+			<div class="modal-footer"> <!-- model footer starts here -->
+				<button class="btn btn-danger" data-ng-click="cancel()">Cancel</button>
+				<input type="submit" value="Submit" class="btn btn-success"  ng-disabled="addVendorTplFrm.$invalid"  ng-class="{'disabled' : addVendorTplFrm.$invalid}">
+			</div> <!-- model footer closed here -->
+		</form>
+	</div> <!-- model content clsoed here -->
+</script>
+
+
+<!-- add vendor scripts clsoed here -->

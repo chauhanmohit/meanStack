@@ -1,0 +1,137 @@
+<section class="row" data-ng-controller="signUpController">
+	<div class="container user-register-page">
+
+	<!------------logo---------->
+	   <div class="row">
+	       <div class="col-lg-12 text-center ">
+	       <div class="logo text-center">
+
+		    <a  class="navbar-brand logo-brand" href="/#!/" class="navbar-brand"><img src="../../../../lib/logo_pow.png" /></a>
+		   </div>
+	       </div>
+	 </div>
+
+	<div class="admin-login-form">
+	<!------------Signup form---------->
+	<div class="row">
+	   <div class="col-lg-12">
+	   		<form name="userForm" id="userForm" ng-submit="signup(userForm.$valid)" class="login-form user-form text-center" autocomplete="off" novalidate>
+		    <h3 class="form-title">Become A Vendor</h3>
+
+			<div class="alert alert-warning alert-danger alert-dismissible" role="alert" data-ng-show="error">
+				<strong data-ng-bind="error"></strong>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+						<input class="form-control input-lg" name="username" type="text" data-ng-model="credentials.username" placeholder="User Name" ng-pattern="/^[a-zA-Z ]*$/" required>
+						<span ng-show="(userForm.username.$error.pattern)" class="help-block">Please use characters only</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{ 'has-error' :userForm.displayName.$invalid && !userForm.displayName.$pristine }">
+						<input class="form-control input-lg" name="displayName" type="text" data-ng-model="credentials.displayName" placeholder="Contact Name" autocomplete="off" ng-pattern="/^[a-zA-Z ]*$/" required>
+						<span ng-show="(userForm.displayName.$error.pattern)" class="help-block">Please use characters only</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{ 'has-error' :userForm.companyName.$invalid && !userForm.companyName.$pristine }">
+						<input class="form-control input-lg" name="companyName" type="text" data-ng-model="credentials.companyName" placeholder="Company Name" autocomplete="off" ng-pattern="/^[a-zA-Z ]*$/" required>
+						<span ng-show="(userForm.companyName.$error.pattern)" class="help-block"> Please use characters only </span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{ 'has-error' :userForm.phone.$invalid && !userForm.phone.$pristine }">
+						<input class="form-control input-lg" name="phone" type="text" data-ng-model="credentials.phone" placeholder="Phone" autocomplete="off" ng-pattern="/^[0-9+\s]*$/" ng-minlength="10" ng-maxlength="12" required>
+						<span ng-show="(userForm.phone.$error.pattern)" class="help-block"> Please use integers only </span>
+						<span ng-show="((userForm.phone.$error.minlength || userForm.phone.$error.maxlength) && userForm.phone.$dirty)" class="help-block">Phone number should be 10-12 digits</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{ 'has-error' :userForm.email.$invalid && !userForm.email.$pristine }">
+						<input class="form-control input-lg" name="email" type="email" data-ng-model="credentials.email" placeholder="Email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+						<span ng-show="(userForm.email.$error.pattern)" class="help-block"> Please fill valid Email </span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div ng-class="{'has-error':userForm.category.$invalid && !userForm.category.$pristine }">
+						<select class="form-control input-lg" name="category" data-ng-model="credentials.category" required>
+							<option value="">Select category</option>
+							<option value="Shoes">Shoes</option>
+							<option value="Sports Products">Sports Products</option>
+							<option value="Womens Clothing and Accessories">
+							Womens Clothing and Accessories</option>
+							<option value="Candy/Nuts">Candy/Nuts</option>
+							<option value="Handbags">Handbags</option>
+							<option value="Oils">Oils</option>
+							<option value="Home decor">Home decor</option>
+							<option value="Household products">Household products</option>
+							<option value="Socks">Socks</option>
+							<option value="Books">Books</option>
+							<option value="Scarfs and Accessories">Scarfs and Accessories</option>
+							<option value="Cosmetics">Cosmetics</option>
+							<option value="Beauty Supplies">Beauty Supplies</option>
+							<option value="Jewelry">Jewelry</option>
+							<option value="Sheets/Pillows/sheets/bedding">Sheets/Pillows/sheets/bedding</option>
+							<option value="Gift Items">Gift Items</option>
+							<option value="Dollar Store">Dollar Store</option>
+							<option value="Electronics">Electronics</option>
+							<option value="Cell phone accessories">Cell phone accessories</option>
+							<option value="Sneakers">Sneakers</option>
+							<option value="Body Products">Body Products</option>
+						</select>
+						<span ng-show="(userForm.category.$error.required && !userForm.category.$pristine)" class="help-block">Please select category</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="form-group">
+					<div ng-class="{'has-error': userForm.password.$invalid && !userForm.password.$pristine}"  >
+						<input class="form-control input-lg" type="password" name="password" data-ng-model="credentials.password" placeholder="Desired password" ng-minlength="7" ng-maxlength="16" required>
+						<span ng-show="(userForm.password.$invalid && !userForm.password.$pristine)" class="help-block">Password length 7-16</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="form-group">
+					<div ng-class="{'has-error': userForm.cpassword.$invalid && !userForm.cpassword.$pristine }"  >
+						<input class="form-control input-lg" name="cpassword" type="password" data-ng-model="credentials.cpassword" placeholder="Confirm Password" required>
+						<span ng-show="userForm.cpassword.$invalid && !userForm.cpassword.$pristine" class="help-block">Please Confirm Password</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="a-r-fee">
+			<h4>$100 Annual Registration Fee !</h4>
+			<p>*Note:<br>
+			1) You Must Activate your Account before having access to available buildings. After registering you must fill out and fax or email in the debit authorization form. After we recieve your authorization form, you will recieve an account validation email.
+			</p>
+			</div>
+			<input type="hidden" ng-bind="credentials.roles = 'vendor'">
+			<input type="submit" value="Register" class="btn btn-lg btn-block btn-bg"/>
+
+		 </form>
+	   </div>
+	</div>
+	</div>
+	</div>
+
+</section>
